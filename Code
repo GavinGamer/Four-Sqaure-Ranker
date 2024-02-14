@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Ranking</title>
+</head>
+<body>
+    <!-- Heading -->
+    <h1>Player Ranking</h1>
+    
+    <!-- Player input form -->
+    <form id="playerForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+        <label for="kills">Number of People Out (1-1,000,000):</label>
+        <input type="number" id="kills" name="kills" min="1" max="1000000" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <!-- Heading for player rankings -->
+    <h2>Player Rankings</h2>
+    
+    <!-- Player rankings list -->
+    <ol id="playerList">
+        <!-- Player rankings will be displayed here -->
+    </ol>
+
+    <!-- JavaScript section -->
+    <script>
+        // Function to calculate player rank based on kills
+        function calculateRank(kills) {
+            // Define ranks
+            var ranks = [
+                "Bronze I", "Bronze II", "Bronze III",
+                "Silver I", "Silver II", "Silver III",
+                "Gold I", "Gold II", "Gold III",
+                "Platinum I", "Platinum II", "Platinum III",
+                "Diamond I", "Diamond II", "Diamond III",
+                "Elite", "Champion", "Unreal"
+            ];
+
+            // Calculate rank index based on kills
+            var rankIndex = Math.min(Math.floor(kills / 55556), ranks.length - 1);
+
+            return ranks[rankIndex];
+        }
+
+        // Event listener for form submission
+        document.getElementById("playerForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get form values
+            var firstName = document.getElementById("firstName").value;
+            var lastName = document.getElementById("lastName").value;
+            var kills = parseInt(document.getElementById("kills").value);
+
+            // Calculate rank
+            var rank = calculateRank(kills);
+
+            // Display player in rankings
+            var playerListItem = document.createElement("li");
+            playerListItem.textContent = firstName + " " + lastName + " (" + rank + ")";
+            document.getElementById("playerList").appendChild(playerListItem);
+
+            // Clear form fields
+            document.getElementById("firstName").value = "";
+            document.getElementById("lastName").value = "";
+            document.getElementById("kills").value = "";
+        });
+    </script>
+</body>
+</html>
